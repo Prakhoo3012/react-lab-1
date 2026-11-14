@@ -7,6 +7,22 @@ import Stats from "./Stats.jsx";
 import { START, incrementAt, decrementAt, zeros } from "./matrix.js";
 
 export default function App() {
+  const [matrix, setMatrix] = useState(START);
+
+  function increment(row, col) {
+    setMatrix((prev) => incrementAt(prev, row, col));
+  }
+
+  useEffect(() => {
+    async function loadMatrix() {
+      const res = await fetch("/matrix.json");
+      const data = await res.json();
+
+      setMatrix(data);
+    }
+
+    loadMatrix();
+  }, [])
   // Section 07: hold the matrix in state, starting from START, and render
   //             <Matrix matrix={…} /> under the header.
   // Section 08: write increment(row, col): it calls the setter with incrementAt.
@@ -16,6 +32,10 @@ export default function App() {
   return (
     <main className="app">
       <Header />
+      <div className="workspace">
+        <Matrix matrix={matrix} onIncrement={increment} />
+        <Stats matrix={matrix} />
+      </div>
     </main>
   );
 }
