@@ -1,6 +1,6 @@
 // Section 06 — the grid: a Matrix made of Cells.
 //
-// Props:  matrix        an array of rows, each an array of numbers (any size — don't assume 3)
+// Props:  matrix an array of rows, each an array of numbers (any size — don't assume 3)
 //         onIncrement   a function: onIncrement(row, col)   (you need it in section 08)
 //
 // Render:
@@ -14,5 +14,26 @@
 import Cell from "./Cell.jsx";
 
 export default function Matrix({ matrix, onIncrement }) {
-  throw new Error("TODO");
+  return (
+    <>
+      <table className="matrix">
+        <tbody>
+          {matrix.map((r, i) => (
+            <tr key={i}>
+              {r.map((val, j) => (
+                <td key={j}>
+                  <Cell
+                    row={i}
+                    col={j}
+                    value={val}
+                    onClick={() => onIncrement(i, j)}
+                  />
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </>
+  );
 }
